@@ -1,15 +1,15 @@
-﻿namespace StoreReactSPA.Server.Models
+﻿namespace StoreReactSPA.Server.Data.Entities
 {
-    public class SalesProducModel
+    public class Sales
     {
         public int Id { get; set; }
 
         //  connections
         public Guid UserId { get; set; }
-        public UserModel User { get; set; }
+        public User User { get; set; }
 
         public Guid ProductId { get; set; }
-        public ProductModel Product { get; set; }
+        public Product Product { get; set; }
 
         //Sales Informatins 
         
@@ -17,7 +17,7 @@
         public decimal PricePerUnit { get; set; }
         public int Discount { get; set; }
         public decimal DiscountPercent => Discount;
-        public decimal DiscountAmount => Math.Round((PricePerUnit * DiscountPercent / 100.0m), 2);
+        public decimal DiscountAmount => Math.Round(PricePerUnit * DiscountPercent / 100.0m, 2);
         public decimal FinalPricePerUnit => PricePerUnit - DiscountAmount;
         public decimal TotalPrice => Math.Round(FinalPricePerUnit * Quantity, 2);
         public DateTime SaleDate { get; set; } = DateTime.UtcNow;
