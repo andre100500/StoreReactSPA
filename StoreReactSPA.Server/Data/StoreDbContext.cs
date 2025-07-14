@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StoreReactSPA.Server.Models;
+using StoreReactSPA.Server.Data.Entities;
 
 namespace StoreReactSPA.Server.Data
 {
     public class StoreDbContext : DbContext 
     {
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<SalesProducModel> salesProducModels { get; set; }
-        public DbSet<ProductModel> Products { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Sales> Sales { get; set; }
+        public DbSet<Product> Products { get; set; }
         public StoreDbContext(DbContextOptions options) : base(options)
         {
         }
