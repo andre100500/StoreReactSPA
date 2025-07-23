@@ -6,5 +6,7 @@ namespace StoreReactSPA.Server.Data.Repositories
     {
         Task<Sale> GetByIdAsync(int id);
         Task<Sale> AddSaleAsync(Sale sale);
+        Task<Sale> UpdateSaleAsync(Sale sale);
+        Task<Sale> DeleteSaleAsync(Sale sale);
     }
 }

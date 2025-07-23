@@ -6,6 +6,6 @@ namespace StoreReactSPA.Server.Services
     public interface ISaleService
     {
         Task<SaleDto> GetSaleDetailsAsync(int id);
-        Task<SaleDto> CreateSaleAsync(CreateSaleDto createSaleDto);
+        Task<SaleDto> CreateSaleAsync(CreateSaleDto createSaleDto, Guid userId);
     }
 }

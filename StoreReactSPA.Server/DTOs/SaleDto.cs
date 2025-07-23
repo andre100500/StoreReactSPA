@@ -6,17 +6,15 @@ namespace StoreReactSPA.Server.DTOs
     public class SaleDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Category { get; set; }
         public int Quantity { get; set; }
         public decimal PricePerUnit { get; set; }
-        public int DiscountPercentage { get; set; }
+        public int DiscountValue { get; set; }
+        public DateTime SaleDate { get; set; }
 
-        public decimal DiscountAmount => Math.Round((PricePerUnit * DiscountPercentage / 100.0m), 2);
+        // Вложенный объект с информацией о продукте
+        public ProductInSaleDto Product { get; set; }
 
-        public decimal FinalPricePerUnit => PricePerUnit - DiscountAmount;
-        public decimal TotalPrice => Math.Round(FinalPricePerUnit * Quantity, 2);
-        public DateTime DateTime { get; set; } = DateTime.Now;
+        // Вычисляемые поля, как и раньше
+        public decimal TotalPrice { get; set; } 
     }
 }

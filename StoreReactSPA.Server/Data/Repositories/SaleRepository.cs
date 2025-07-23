@@ -19,10 +19,21 @@ namespace StoreReactSPA.Server.Data.Repositories
             return sale;
         }
 
+        public Task<Sale> DeleteSaleAsync(Sale sale)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Sale> GetByIdAsync(int id)
         {
-            return await _dbContext.Sales.FindAsync(id);
+            return await _dbContext.Sales
+                .Include(s=> s.Product)
+                .FirstOrDefaultAsync(s=> s.Id == id);
         }
-   
+
+        public Task<Sale> UpdateSaleAsync(Sale sale)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
