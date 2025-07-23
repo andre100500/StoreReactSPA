@@ -8,7 +8,7 @@
         public string PasswordHash { get; set; }
         public bool EmailConfirmed { get; set; }
 
-        public ICollection<Sales> SalesProduc { get; set; }
+        public ICollection<Sale> SalesProduct { get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }
