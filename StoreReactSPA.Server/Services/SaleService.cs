@@ -62,7 +62,11 @@ namespace StoreReactSPA.Server.Services
             return MapSaleToDto(saleEntity);
         }
 
-       
+        public Task<SaleDto> GetSaleDetailsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         private SaleDto MapSaleToDto(Sale sale)
         {
             var totalPrice = sale.PricePerUnit * sale.Quantity;
