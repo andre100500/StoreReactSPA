@@ -1,7 +1,8 @@
 ﻿using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.DTOs;
+using StoreReactSPA.Server.DTOs.CreatedDTOs;
 
-namespace StoreReactSPA.Server.Services
+namespace StoreReactSPA.Server.Services.Inteface
 {
     public interface ISaleService
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreReactSPA.Server.Data.Entities;
+using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 
 namespace StoreReactSPA.Server.Data.Repositories
 {

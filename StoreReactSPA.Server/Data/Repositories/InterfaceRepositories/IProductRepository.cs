@@ -1,6 +1,6 @@
 ﻿using StoreReactSPA.Server.Data.Entities;
 
-namespace StoreReactSPA.Server.Data.Repositories
+namespace StoreReactSPA.Server.Data.Repositories.InterfaceRepositories
 {
     public interface IProductRepository
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StoreReactSPA.Server.DTOs;
-using StoreReactSPA.Server.Services;
+using StoreReactSPA.Server.DTOs.CreatedDTOs;
+using StoreReactSPA.Server.Services.Inteface;
 
 namespace StoreReactSPA.Server.Controllers
 {

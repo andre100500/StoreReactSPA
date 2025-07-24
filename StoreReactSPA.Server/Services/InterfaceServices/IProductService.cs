@@ -1,6 +1,8 @@
 ﻿using StoreReactSPA.Server.DTOs;
+using StoreReactSPA.Server.DTOs.CreatedDTOs;
+using StoreReactSPA.Server.DTOs.UpdateDTOs;
 
-namespace StoreReactSPA.Server.Services
+namespace StoreReactSPA.Server.Services.Inteface
 {
     public interface IProductService
     {

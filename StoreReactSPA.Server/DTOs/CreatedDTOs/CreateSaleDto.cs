@@ -1,4 +1,4 @@
-﻿namespace StoreReactSPA.Server.DTOs
+﻿namespace StoreReactSPA.Server.DTOs.CreatedDTOs
 {
     public class CreateSaleDto
     {

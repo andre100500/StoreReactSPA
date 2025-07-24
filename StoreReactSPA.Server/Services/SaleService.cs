@@ -1,7 +1,9 @@
 ﻿using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.Data.Entities.Enums;
-using StoreReactSPA.Server.Data.Repositories;
+using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.DTOs;
+using StoreReactSPA.Server.DTOs.CreatedDTOs;
+using StoreReactSPA.Server.Services.Inteface;
 
 namespace StoreReactSPA.Server.Services
 {

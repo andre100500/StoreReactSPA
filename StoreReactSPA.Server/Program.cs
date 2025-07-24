@@ -1,5 +1,7 @@
 using StoreReactSPA.Server.Data.Repositories;
+using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.Services;
+using StoreReactSPA.Server.Services.Inteface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
