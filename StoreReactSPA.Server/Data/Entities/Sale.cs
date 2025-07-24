@@ -19,7 +19,6 @@ namespace StoreReactSPA.Server.Data.Entities
         public int Quantity { get; set; }
         public decimal PricePerUnit { get; set; }
         public int DiscountPercentage { get; set; }
-        public DiscountType DiscountType { get; set; }
         public DateTime SaleDate { get; set; }
 
         // TODO Payments 
