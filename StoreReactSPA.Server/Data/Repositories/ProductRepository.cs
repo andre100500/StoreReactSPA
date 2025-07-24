@@ -21,10 +21,10 @@ namespace StoreReactSPA.Server.Data.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            var productEntity = await _dbContext.Products.FindAsync(id);
-            if (productEntity != null) 
+            var productToDelete = await _dbContext.Products.FindAsync(id);
+            if (productToDelete != null) 
             {
-                _dbContext.Products.Remove(productEntity);
+                _dbContext.Products.Remove(productToDelete);
                 await _dbContext.SaveChangesAsync();   
             }
         }
@@ -41,18 +41,9 @@ namespace StoreReactSPA.Server.Data.Repositories
 
         public async Task<Product> UpdateAsync(Product product)
         {
-            var existingProduct  = await _dbContext.Products.FindAsync(product.Id);
-            if (existingProduct == null) 
-            {
-                return null;
-            }
-            product.Id = existingProduct.Id;
-            product.Name = existingProduct.Name;
-            product.Description = existingProduct.Description;
-            product.Category = existingProduct.Category;
-
+           _dbContext.Entry(product).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
-            return existingProduct;
+            return product;
         }
     }
 }
