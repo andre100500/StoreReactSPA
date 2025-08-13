@@ -4,6 +4,7 @@ using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.Services;
 using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
+using StoreReactSPA.Server.DTOs.UpdateDTOs;
 namespace StoreReactSPA.Tests
 {
     public class ProductServiceTests
@@ -70,6 +71,49 @@ namespace StoreReactSPA.Tests
 
             _productRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<Product>()),Times.Once());
 
+        }
+
+        [Fact]
+        public async Task UpdateProductAsync_ShouldUpdateProduct_WhenProductExists()
+        {
+            var productId = Guid.NewGuid();
+            var updateDto = new UpdateProductDto
+            {
+               Name = "Update Name",
+               Price = 100,
+               DiscountValue = 10,
+               Category = "meat",
+               Description = "Description"
+            };
+
+            var existingProduct = new Product { Id = productId, Name = "Update Name" , Description="Description", Price = 100, Category = "meat", DiscountValue =10 };
+
+            _productRepositoryMock
+                .Setup(repo=> repo.GetByIdAsync(productId))
+                .ReturnsAsync(existingProduct);
+
+            _productRepositoryMock
+                .Setup(repo=> repo.UpdateAsync(It.IsAny<Product>()))
+                .ReturnsAsync((Product p ) => p);   
+
+            var resultAsync = await _productService.UpdateProductAsync(productId, updateDto);
+
+            resultAsync.Should().NotBeNull();
+            resultAsync.Name.Should().Be(updateDto.Name);
+            resultAsync.Price.Should().Be(updateDto.Price);
+            resultAsync.Description.Should().Be(updateDto.Description);
+            resultAsync.DiscountValue.Should().Be(updateDto.DiscountValue);
+            resultAsync.Category.Should().Be(updateDto.Category);
+
+        }
+
+        [Fact]
+        public async Task DeleteProductAsync_ShouldCallRepositoryDelete_WhenCalled()
+        {
+            var productId = Guid.NewGuid();
+
+            await _productService.DeleteProductAsync(productId);
+            _productRepositoryMock.Verify(repo=> repo.DeleteAsync(productId), Times.Once());
         }
     }
 }

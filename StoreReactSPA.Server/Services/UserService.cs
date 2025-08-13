@@ -14,7 +14,15 @@ namespace StoreReactSPA.Server.Services
         {
             _userRepository = userRepository;
         }
-
+        public UserDto MapUserToDto(User user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email
+            };
+        }
         public async Task<UserDto> RegisterUserAsync(CreateUserDto createUserDto)
         {
             var existingUser = await _userRepository.GetByEmailAsync(createUserDto.Email);
@@ -32,12 +40,7 @@ namespace StoreReactSPA.Server.Services
             };
             var newUser = await _userRepository.AddAsync(userEntity);
 
-            return new UserDto 
-            { 
-                Id = newUser.Id,
-                Email = newUser.Email,
-                Name = newUser.Name
-            };
+            return MapUserToDto(newUser);
         }
     }
 }
