@@ -49,14 +49,15 @@ namespace StoreReactSPA.Tests
             await _productService
                 .Awaiting(service => service
                 .GetProductByIdAsync(nonExistentId))
-                .Should().ThrowAsync<KeyNotFoundException>()
+                .Should()
+                .ThrowAsync<KeyNotFoundException>()
                 .WithMessage($"Product with ID {nonExistentId} not found");
         }
 
         [Fact]
         public async Task GetProductByIdAsync_ShouldThrowArgumentException_WhenIdIsEmpty()
         {
-            var emptyId = Guid.NewGuid();
+            var emptyId = Guid.Empty;
 
             await _productService
                 .Awaiting(s => s.GetProductByIdAsync(emptyId))
