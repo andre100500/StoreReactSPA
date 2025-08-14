@@ -57,10 +57,16 @@ namespace StoreReactSPA.Server.Services
 
         public async Task<ProductDto> GetProductByIdAsync(Guid id)
         {
+            if(id == Guid.Empty) 
+            {  
+                throw new ArgumentException("Product ID cannot be empty"); 
+            }
+
+
             var product = await _productRepository.GetByIdAsync(id);
             if(product == null)
             {
-                throw new KeyNotFoundException($"Product is Id {id} not Found.");
+                throw new KeyNotFoundException($"Product with ID {id} not found");
             }
             return MapProductToDto(product);
         }

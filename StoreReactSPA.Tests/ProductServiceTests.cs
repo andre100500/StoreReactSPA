@@ -46,8 +46,24 @@ namespace StoreReactSPA.Tests
                 .Setup(repo=> repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Product)null);
 
-            await _productService.Awaiting(service => service.GetProductByIdAsync(nonExistentId))
-                .Should().ThrowAsync<KeyNotFoundException>();
+            await _productService
+                .Awaiting(service => service
+                .GetProductByIdAsync(nonExistentId))
+                .Should()
+                .ThrowAsync<KeyNotFoundException>()
+                .WithMessage($"Product with ID {nonExistentId} not found");
+        }
+
+        [Fact]
+        public async Task GetProductByIdAsync_ShouldThrowArgumentException_WhenIdIsEmpty()
+        {
+            var emptyId = Guid.Empty;
+
+            await _productService
+                .Awaiting(s => s.GetProductByIdAsync(emptyId))
+                .Should()
+                .ThrowAsync<ArgumentException>()
+                .WithMessage("Product ID cannot be empty");
         }
 
         [Fact]
@@ -67,6 +83,7 @@ namespace StoreReactSPA.Tests
             var result = await _productService.CreateProductAsync(createDto);
             
             result.Should().NotBeNull();
+            result.Should().BeOfType<ProductDto>();
             result.Id.Should().Be(prodctId);
             result.Name.Should().Be(createDto.Name);
 
