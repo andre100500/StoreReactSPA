@@ -5,6 +5,7 @@ using StoreReactSPA.Server.Services;
 using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
 using StoreReactSPA.Server.DTOs.UpdateDTOs;
+using StoreReactSPA.Server.DTOs;
 namespace StoreReactSPA.Tests
 {
     public class ProductServiceTests
@@ -30,7 +31,7 @@ namespace StoreReactSPA.Tests
 
             var result = await _productService.GetProductByIdAsync(productId);
             result.Should().NotBeNull();
-            result.Should().BeOfType<Product>();
+            result.Should().BeOfType<ProductDto>();
             result.Id.Should().Be(productId);
             result.Name.Should().Be(result.Name);
 
