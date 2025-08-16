@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
@@ -10,7 +9,6 @@ namespace StoreReactSPA.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
