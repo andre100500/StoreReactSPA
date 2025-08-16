@@ -46,6 +46,17 @@ function App() {
             setForecasts(data);
         }
     }
+
+    async function fetchProducts() {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('https://localhost:XXXX/api/products', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
 }
 
 export default App;
