@@ -19,7 +19,7 @@ namespace StoreReactSPA.Server.Services
             return new UserDto
             {
                 Id = user.Id,
-                Name = user.Name,
+                Name = user.UserName,
                 Email = user.Email
             };
         }
@@ -34,7 +34,7 @@ namespace StoreReactSPA.Server.Services
 
             var userEntity = new User
             {
-                Name = createUserDto.Name,
+                UserName = createUserDto.Name,
                 Email = createUserDto.Email,
                 PasswordHash = (string)passwordHash
             };
