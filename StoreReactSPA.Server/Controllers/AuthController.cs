@@ -12,8 +12,10 @@ namespace StoreReactSPA.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //Auth controller
     public class AuthController : ControllerBase
     {
+        //Auth controller
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
 
