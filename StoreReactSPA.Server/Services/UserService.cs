@@ -19,7 +19,7 @@ namespace StoreReactSPA.Server.Services
             return new UserDto
             {
                 Id = user.Id,
-                Name = user.Name,
+                Name = user.UserName,
                 Email = user.Email
             };
         }
