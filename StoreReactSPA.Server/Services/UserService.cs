@@ -14,6 +14,24 @@ namespace StoreReactSPA.Server.Services
         {
             _userRepository = userRepository;
         }
+
+        public async Task<UserDto> GetUserByIdAsync(Guid id)
+        {
+            var userEntity = await _userRepository.GetByIdAsync(id);
+
+            if (userEntity == null) 
+            {
+                throw new KeyNotFoundException($"The user with ID {id} was not found.");
+            }
+            var userDto = new UserDto{
+                Id = userEntity.Id,
+                Name = userEntity.UserName,
+                Email = userEntity.Email
+            };
+
+            return userDto;
+        }
+
         public UserDto MapUserToDto(User user)
         {
             return new UserDto
@@ -34,7 +52,7 @@ namespace StoreReactSPA.Server.Services
 
             var userEntity = new User
             {
-                Name = createUserDto.Name,
+                UserName = createUserDto.Name,
                 Email = createUserDto.Email,
                 PasswordHash = (string)passwordHash
             };
