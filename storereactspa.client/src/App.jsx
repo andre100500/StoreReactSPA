@@ -46,6 +46,7 @@ function App() {
             setForecasts(data);
         }
     }
+
 }
 
 export default App;

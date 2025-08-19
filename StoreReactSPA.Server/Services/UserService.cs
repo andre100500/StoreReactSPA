@@ -1,4 +1,5 @@
-﻿using StoreReactSPA.Server.Data.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.DTOs;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
@@ -8,13 +9,32 @@ namespace StoreReactSPA.Server.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        private readonly UserManager<User> _userManager;
+
+        public UserService(UserManager<User> userManager)
         {
-            _userRepository = userRepository;
+            _userManager = userManager;
         }
-        public UserDto MapUserToDto(User user)
+
+        public async Task<UserDto> GetUserByIdAsync(Guid id)
+        {
+            var userEntity = await _userManager.FindByIdAsync(id.ToString());
+
+            if (userEntity == null) 
+            {
+                throw new KeyNotFoundException($"The user with ID {id} was not found.");
+            }
+            var userDto = new UserDto{
+                Id = userEntity.Id,
+                Name = userEntity.UserName,
+                Email = userEntity.Email
+            };
+
+            return userDto;
+        }
+
+        private UserDto MapUserToDto(User user)
         {
             return new UserDto
             {
@@ -25,7 +45,7 @@ namespace StoreReactSPA.Server.Services
         }
         public async Task<UserDto> RegisterUserAsync(CreateUserDto createUserDto)
         {
-            var existingUser = await _userRepository.GetByEmailAsync(createUserDto.Email);
+            var existingUser = await _userManager.FindByEmailAsync(createUserDto.Email);
             if (existingUser != null) 
             { 
                 throw new Exception("This is Email no avaible");
@@ -34,13 +54,17 @@ namespace StoreReactSPA.Server.Services
 
             var userEntity = new User
             {
-                Name = createUserDto.Name,
+                UserName = createUserDto.Name,
                 Email = createUserDto.Email,
-                PasswordHash = (string)passwordHash
             };
-            var newUser = await _userRepository.AddAsync(userEntity);
+            var newUser = await _userManager.CreateAsync(userEntity, createUserDto.Password);
 
-            return MapUserToDto(newUser);
+            if (!newUser.Succeeded)
+            {
+                throw new Exception(string.Join(", ", newUser.Errors.Select(e => e.Description)));
+            }
+
+            return MapUserToDto(userEntity);
         }
     }
 }

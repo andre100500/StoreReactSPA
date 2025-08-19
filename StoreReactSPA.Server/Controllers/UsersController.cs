@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreReactSPA.Server.DTOs;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
 using StoreReactSPA.Server.Services.Inteface;
 
@@ -27,9 +28,17 @@ namespace StoreReactSPA.Server.Controllers
             catch (Exception ex) {return BadRequest(ex.Message); }
         }
         [HttpGet("{id}")]
-        private object GetUserById(Guid id)
+        public async Task<ActionResult> GetUserById(Guid id)
         {
-            return Ok($"Get user {id}");
+            try
+            {
+                var userDto = await _userService.GetUserByIdAsync(id);
+                return Ok(userDto);
+            }
+            catch (KeyNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }
