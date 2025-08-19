@@ -36,6 +36,10 @@ namespace StoreReactSPA.Server.Data.Repositories
 
         public async Task<Product> GetByIdAsync(Guid id)
         {
+            if(id == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
             return await _dbContext.Products.FindAsync(id);
         }
 
