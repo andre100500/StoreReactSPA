@@ -15,7 +15,7 @@ async function loginUser(credentials) {
 
 function Login({ setToken }) {
     const [email, setEmail] = useState('');
-    cosnt[password, setPassword] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
