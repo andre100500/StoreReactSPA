@@ -10,10 +10,14 @@ const handleResponse = async<T>(response: Response): Promise<T> => {
         window.location.href = locationHrefLogin;
         throw new Error('Сесія недійсна. Будь ласка, увійдіть знову.');
     }
-    if (response.ok) {
-        return Promise.resolve(null as T);
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Помилка запиту");
     }
-    return response.json();
+    if (response.ok) {
+        return null as T;
+    }
+    return response.json() as Promise<T>;
 }
 
 
