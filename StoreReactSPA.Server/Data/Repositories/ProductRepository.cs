@@ -43,6 +43,20 @@ namespace StoreReactSPA.Server.Data.Repositories
             return await _dbContext.Products.FindAsync(id);
         }
 
+        public async Task<IEnumerable<Product>> SearchAsync(string? search, string? category)
+        {
+            var query = _dbContext.Products.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(p => p.Name.Contains(search));
+            }
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                query = query.Where(p => p.Category.Contains(category));
+            }
+            return await query.ToListAsync();
+        }
+
         public async Task<Product> UpdateAsync(Product product)
         {
            _dbContext.Entry(product).State = EntityState.Modified;
