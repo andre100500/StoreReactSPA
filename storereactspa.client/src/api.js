@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-const = API_URL = 'https://localhost:XXXX/api';
+const API_URL = 'https://localhost:XXXX/api';
 
 const getToken = () => localStorage.getItem('token');
 
