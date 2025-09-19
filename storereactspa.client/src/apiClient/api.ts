@@ -21,38 +21,51 @@ const handleResponse = async<T>(response: Response): Promise<T> => {
 }
 
 
-export const api = (path: string) => {
-    const url = `${API_URL}${path}`;
-    const _fetch = async<T>(method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE', body?: any): Promise<T> => {
+class ApiClient {
+    private baseUrl: string;
+    constructor(resource: string) {
+        this.baseUrl = `${API_URL}${resource}`;
+    }
+
+    private async request<T>(
+        method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
+        path: string = "",
+        body?: any
+    ): Promise<T> {
         const token = getToken();
         if (!token) {
             window.location.href = locationHrefLogin;
             throw new Error("Користувач не авторизований");
         }
         const headers: HeadersInit = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
         };
-        const options: RequestInit = {
+        const response = await fetch(`${this.baseUrl}${path}`, {
             method,
             headers,
-        };
-        if (body) {
-            options.body = JSON.stringify(body);
-        }
-        const response = await fetch(url, options);
+            body: body ? JSON.stringify(body) : undefined,
+        });
         return handleResponse<T>(response);
-    };
-    return {
-        get: <T>(): Promise<T> => _fetch<T>('GET'),
+    }
+    get<T>(path = ""): Promise<T> {
+        return this.request<T>("GET", path);
+    }
 
-        post: <T>(data: any): Promise<T> => _fetch<T>('POST', data),
+    post<T>(data: any, path = ""): Promise<T> {
+        return this.request<T>("POST", path, data);
+    }
 
-        put: <T>(data: any): Promise<T> => _fetch<T>('PUT', data),
+    put<T>(data: any, path = ""): Promise<T> {
+        return this.request<T>("PUT", path, data);
+    }
 
-        patch: <T>(data: any): Promise<T> => _fetch<T>('PATCH', data),
+    patch<T>(data: any, path = ""): Promise<T> {
+        return this.request<T>("PATCH", path, data);
+    }
 
-        delete: <T>(): Promise<T> => _fetch<T>('DELETE'),
-
+    delete<T>(path = ""): Promise<T> {
+        return this.request<T>("DELETE", path);
     }
 }
+export default ApiClient;

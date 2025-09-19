@@ -1,13 +1,14 @@
-import { api } from "../apiClient/api";
+import ApiClient from "../apiClient/api";
 import { UserDto, CreateUserDto, UpdateUserDto } from "../types/userTypes";
 
-const userApi = api("/users");
+
+const userApi = new ApiClient("/users");
 
 export const userService = {
-    getAll: async (): Promise<UserDto> => {
-        return await userApi.get<UserDto>();
-    },
-    getById: async (id: string): Promise<UserDto> => {
-        return await api(`/users/${id}`).get<UserDto>();
-    }
-}
+    getAll: (): Promise<UserDto[]> => userApi.get<UserDto[]>(),
+    getById: (id: string): Promise<UserDto> => userApi.get<UserDto>(`/${id}`),
+    create: (data: CreateUserDto): Promise<UserDto> => userApi.post<UserDto>(data),
+    update: (id: string, data: UpdateUserDto): Promise<UserDto> => userApi.put(data, `/${id}`),
+    delete: (id: string): Promise<void> => userApi.delete<void>(`/${id}`),
+
+};
