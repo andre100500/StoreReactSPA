@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
+using StoreReactSPA.Server.DTOs;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
 using StoreReactSPA.Server.DTOs.UpdateDTOs;
 using StoreReactSPA.Server.Services.Inteface;
@@ -49,6 +50,22 @@ namespace StoreReactSPA.Server.Controllers
         {
             await _productService.DeleteProductAsync(id);
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts([FromQuery] string? search, [FromQuery] string? category)
+        {
+            var products = await _productService.SearchProductsAsync(search, category);
+
+            var result = products.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Category = p.Category,
+                Description = p.Description,
+            });
+
+            return Ok(result);
         }
     }
 }
