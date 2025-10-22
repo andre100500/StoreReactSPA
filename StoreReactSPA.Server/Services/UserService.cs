@@ -3,6 +3,7 @@ using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.DTOs;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
+using StoreReactSPA.Server.DTOs.UpdateDTOs;
 using StoreReactSPA.Server.Services.Inteface;
 
 namespace StoreReactSPA.Server.Services
@@ -65,6 +66,44 @@ namespace StoreReactSPA.Server.Services
             }
 
             return MapUserToDto(userEntity);
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+        {
+            var users =  _userManager.Users.ToList();
+            return  users.Select(MapUserToDto);
+        }
+
+        public async Task<UserDto> UpdateUserAsync(Guid id, UpdateUserDto updateUserDto)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if(user == null)
+            {
+                throw new KeyNotFoundException($"User with ID '{id}' not found.");
+            }
+            if(!string.IsNullOrEmpty(updateUserDto.UserName))
+                user.UserName = updateUserDto.UserName;
+            if(!string.IsNullOrEmpty(updateUserDto.Email))
+                user.Email = updateUserDto.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException(string.Join("; ", result.Errors.Select(e => e.Description)));
+            }
+
+            return MapUserToDto(user);
+        }
+
+        public async Task<bool> DeleteUserAsync(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null) 
+            { 
+               return false;
+            }
+            var result = await _userManager.DeleteAsync(user);
+            return result.Succeeded;
         }
     }
 }
