@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StoreReactSPA.Server.DTOs;
 using StoreReactSPA.Server.DTOs.CreatedDTOs;
+using StoreReactSPA.Server.DTOs.UpdateDTOs;
 using StoreReactSPA.Server.Services.Inteface;
 
 namespace StoreReactSPA.Server.Controllers
@@ -38,6 +39,44 @@ namespace StoreReactSPA.Server.Controllers
             catch (KeyNotFoundException e)
             {
                 return NotFound(e.Message);
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, UpdateUserDto updateUserDto)
+        {
+            try
+            {
+                var updatedUser = await _userService.UpdateUserAsync(id, updateUserDto);
+                return Ok(updatedUser);
+            }catch(KeyNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            try
+            {
+                var deleteUser = await _userService.DeleteUserAsync(id);
+                if (!deleteUser)
+                    return NotFound($"User with ID '{id}' not found.");
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
