@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using StoreReactSPA.Server.Data.Entities;
 using StoreReactSPA.Server.Data.Repositories.InterfaceRepositories;
 using StoreReactSPA.Server.DTOs;
@@ -70,7 +71,7 @@ namespace StoreReactSPA.Server.Services
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
-            var users =  _userManager.Users.ToList();
+            var users =  await _userManager.Users.ToListAsync();
             return  users.Select(MapUserToDto);
         }
 
